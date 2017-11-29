@@ -1,0 +1,68 @@
+#pragma once
+
+#ifndef _LUAX_VM_H_
+#define _LUAX_VM_H_
+
+
+#include <stack>
+
+#include <luax\base.h>
+
+
+namespace luax {
+
+struct vm {
+  static ::luax::VM current () {
+    return _curr;
+  }
+
+  static bool is_same (::luax::VM vm) {
+    return vm == current();
+  }
+
+  static void push (::luax::VM vm) {
+    _prev.push(_curr);
+    _curr = vm;
+  }
+
+  static void pop () {
+    _curr = _prev.top();
+    _prev.pop();
+  }
+
+
+  struct handler {
+    handler (::luax::VM vm)
+      : _pushed(!::luax::vm::is_same(vm)) {
+      if (_pushed) {
+        ::luax::vm::push(vm);
+      }
+    }
+
+    ~handler () {
+      if (_pushed) {
+        ::luax::vm::pop();
+      }
+    }
+
+    bool valid () const { return true; }
+
+  private:
+    bool _pushed;
+  }
+
+
+private:
+  static ::luax::VM             _curr;
+  static std::stack<::luax::VM> _prev;
+};
+
+} // namespace luax
+
+
+#define luax_use_vm(_Vm)    luax_use   (::luax::vm::handler(_Vm))
+#define luax_using_vm(_Vm)  luax_using (::luax::vm::handler(_Vm))
+#define luax_current_vm     ::luax::vm::current()
+
+
+#endif  // _LUAX_VM_H_
