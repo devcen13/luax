@@ -68,7 +68,7 @@ inline T get (VM vm, int idx, const T &def = T()) {
 
 
 
-LUAX_HANDLER handler final {
+LUAX_NODISCARD struct handler final {
   handler (int count = 1)
     : handler(luax_current_vm, count) { }
   handler (::luax::VM vm, int count = 1) 
@@ -94,7 +94,8 @@ LUAX_HANDLER handler final {
     }
   }
 
-  bool valid () const { return _count > 0; }
+  bool     valid () const { return _count > 0; }
+  operator bool ()  const { return valid(); }
 
   static handler invalid (::luax::VM vm) { return handler(vm, 0); }
   static handler invalid ()              { return invalid(luax_current_vm); }
@@ -102,7 +103,7 @@ LUAX_HANDLER handler final {
 private:
   ::luax::VM _vm;
   int        _count;
-}
+};
 
 
 inline ::luax::stack::handler upvalue (::luax::VM vm, int idx) {

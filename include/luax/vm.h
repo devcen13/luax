@@ -31,12 +31,24 @@ struct vm {
   }
 
 
-  struct handler {
+  LUAX_NODISCARD struct handler final {
     handler (::luax::VM vm)
       : _pushed(!::luax::vm::is_same(vm)) {
       if (_pushed) {
         ::luax::vm::push(vm);
       }
+    }
+
+    handler (const handler &) = delete;
+    handler &operator = (const handler &) = delete;
+
+    handler (handler &&other)
+      : _pushed(other._pushed) {
+      other._pushed = false;
+    }
+    handler &operator = (handler &&other) {
+      _pushed = other._pushed;
+      other._pushed = false;      
     }
 
     ~handler () {
@@ -45,11 +57,12 @@ struct vm {
       }
     }
 
-    bool valid () const { return true; }
+    bool     valid () const { return true; }
+    operator bool ()  const { return valid(); }
 
   private:
     bool _pushed;
-  }
+  };
 
 
 private:
