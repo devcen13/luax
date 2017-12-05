@@ -26,10 +26,12 @@ struct function {
       return {
         reinterpret_cast<LuaUserPointer>(func),
         [](VM vm)->int {
+          luax_use_vm(vm);
+
           static_assert(sizeof(Native) == sizeof(void*), "No support for 'fat' pointers");
-          auto f = reinterpret_cast<Native>(::luax::stack::get<LuaUserPointer>(vm, lua_upvalueindex(1)));
-          Ret ret = f(::luax::stack::get<Args>(vm, (Is + 1))...);
-          ::luax::stack::push(vm, ret);
+          auto f = reinterpret_cast<Native>(::luax::stack::get<LuaUserPointer>(lua_upvalueindex(1)));
+          Ret ret = f(::luax::stack::get<Args>(Is + 1)...);
+          ::luax::stack::push(ret);
           return 1;
         }
       };
@@ -49,9 +51,11 @@ struct function {
       return {
         reinterpret_cast<LuaUserPointer>(func),
         [](VM vm)->int {
+          luax_use_vm(vm);
+
           static_assert(sizeof(Native) == sizeof(void*), "No support for 'fat' pointers");
-          auto f = reinterpret_cast<Native>(::luax::stack::get<LuaUserPointer>(vm, lua_upvalueindex(1)));
-          f(::luax::stack::get<Args>(vm, (Is + 1))...);
+          auto f = reinterpret_cast<Native>(::luax::stack::get<LuaUserPointer>(lua_upvalueindex(1)));
+          f(::luax::stack::get<Args>(Is + 1)...);
           return 1;
         }
       };
