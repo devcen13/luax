@@ -6,8 +6,8 @@
 
 #include <string>
 
-#include <luax\base.h>
-#include <luax\vm.h>
+#include <luax/base.h>
+#include <luax/vm.h>
 
 
 namespace luax {
@@ -174,7 +174,7 @@ inline ::luax::stack::handler upvalue (int idx) {
   };
 
 
-#include <luax\stack_value.inl>
+#include <luax/stack_value.inl>
 
 
 #endif  // _LUAX_STACK_H_

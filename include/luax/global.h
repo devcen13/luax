@@ -4,11 +4,11 @@
 #define _LUAX_GLOBAL_H_
 
 
-#include <luax\base.h>
-#include <luax\vm.h>
-#include <luax\stack.h>
-#include <luax\params.h>
-#include <luax\function.h>
+#include <luax/base.h>
+#include <luax/vm.h>
+#include <luax/stack.h>
+#include <luax/params.h>
+#include <luax/function.h>
 
 
 namespace luax {

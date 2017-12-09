@@ -6,9 +6,9 @@
 
 #include <utility>
 
-#include <luax\base.h>
-#include <luax\vm.h>
-#include <luax\stack.h>
+#include <luax/base.h>
+#include <luax/vm.h>
+#include <luax/stack.h>
 
 
 namespace luax {

@@ -4,10 +4,10 @@
 #define _LUAX_ARRAY_H_
 
 
-#include <luax\base.h>
-#include <luax\vm.h>
-#include <luax\stack.h>
-#include <luax\function.h>
+#include <luax/base.h>
+#include <luax/vm.h>
+#include <luax/stack.h>
+#include <luax/function.h>
 
 
 namespace luax {

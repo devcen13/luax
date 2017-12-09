@@ -6,7 +6,7 @@
 
 #include <stack>
 
-#include <luax\base.h>
+#include <luax/base.h>
 
 
 namespace luax {
